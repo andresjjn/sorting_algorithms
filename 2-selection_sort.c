@@ -27,9 +27,11 @@ void selection_sort(int *array, size_t size)
 				p++;
 			}
 		}
-		array[k] = array[i];
-		array[i] = n;
 		if (p != 0)
+		{
+			array[k] = array[i];
+			array[i] = n;
 			print_array(array, size);
+		}
 	}
 }
