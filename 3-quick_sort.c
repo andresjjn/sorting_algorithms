@@ -9,71 +9,44 @@
  */
 void quick_sort(int *array, size_t size)
 {
-	int left_limit, right_limit;
+        int left_limit, right_limit;
 
-	left_limit = 0;
-	right_limit = (int)(size - 1);
-	quickSort(array, left_limit, right_limit, size);
+        left_limit = 0;
+        right_limit = (int)(size - 1);
+        quick_sort_rec(array, left_limit, right_limit, size);
 }
 
 /**
- * quickSort - Recursive funtion to sort arrays
- *
- * @arr: Elements to be ordered
- * @low: Left limit sort
- * @high: Right limit sort
- * @size: Size of array, used to print an array
+ * quick_sort_rec - Recursive funtion to sort array
+ * 
+ * @array: Elements to be ordered
+ * @left_limit: Left limit sort
+ * @right_limit: Right limit sort
  */
-void quickSort(int *arr, int low, int high, size_t size)
+void quick_sort_rec(int *array, int left_limit, int right_limit, size_t size)
 {
-	print_array(arr, size);
-	if (low < high)
-	{
-		int pi = partition(arr, low, high);
+        int left, right, tmp, pivot;
 
-		quickSort(arr, low, pi - 1, size);
-		quickSort(arr, pi + 1, high, size);
-	}
-}
-
-/**
- * partition - funtion that take arrat divide and sort it
- *
- * @arr: Elements to be ordered
- * @low: Lowest limit sort
- * @high: Highest limit sort
- * Return: Next position to check
- */
-int partition(int *arr, int low, int high)
-{
-	int pivot;
-	int i, j;
-
-	pivot = arr[high];
-	i = (low - 1);
-	for (j = low; j <= high - 1; j++)
-	{
-		if (arr[j] <= pivot)
-		{
-			i++;
-			swap(&arr[i], &arr[j]);
-		}
-	}
-	swap(&arr[i + 1], &arr[high]);
-	return (i + 1);
-}
-
-/**
- * swap - swap two positions in an array
- *
- * @a: First element to swap
- * @b: Second element to swap
- */
-void swap(int *a, int *b)
-{
-	int t;
-
-	t = *a;
-	*a = *b;
-	*b = t;
+        left = left_limit;
+        right = right_limit;
+        pivot = array[(left + right) / 2];
+        do{
+                while(array[left] < pivot && left < right_limit)
+                        left++;
+                while(pivot < array[right] && right > left_limit)
+                        right--;
+                if (left <= right)
+                {
+                        tmp = array[left];
+                        array[left] = array[right];
+                        array[right] = tmp;
+                        left++;
+                        right--;
+                }
+        }while(left <= right);
+        print_array(array, size);
+        if (left_limit < right)
+                quick_sort_rec(array, left_limit, right, size);
+        if (right_limit > left)
+                quick_sort_rec(array, left, right_limit, size);
 }
